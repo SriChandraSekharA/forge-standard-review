@@ -1,9 +1,10 @@
 ---
 name: Feature request
 about: Suggest an idea for forge-standard-review
-title: "feat: "
+title: 'feat: '
 labels: enhancement
-assignees: ""
+assignees: ''
+
 ---
 
 ## Problem

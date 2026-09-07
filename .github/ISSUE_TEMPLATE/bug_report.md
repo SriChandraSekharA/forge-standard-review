@@ -1,9 +1,10 @@
 ---
 name: Bug report
 about: Report a problem to help us fix it
-title: "bug: "
+title: 'bug: '
 labels: bug
-assignees: ""
+assignees: ''
+
 ---
 
 ## Description
