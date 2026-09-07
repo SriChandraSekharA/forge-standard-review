@@ -23,6 +23,7 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+mkdir -p "$WORKDIR" 2>/dev/null || true
 # Resolve workdir to absolute path (handles quoted paths with spaces)
 WORKDIR="$(cd "$WORKDIR" 2>/dev/null && pwd || echo "$WORKDIR")"
 
