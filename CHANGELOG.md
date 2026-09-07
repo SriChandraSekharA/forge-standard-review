@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.1.3] - 2026-09-07 IST
+
+**Release:** `v1.1.3: site SEO + sponsors + CI fixes + smoke workdir`
+
+- **HEAD:** `38ee9be` (origin/main) — 8 commits since `v1.1.2 9fd650d` (`28408a0 Add CI workflow` → `38ee9be fix stdio smoke workdir`)
+- **Diff v1.1.2..v1.1.3:** 22 files, 860 insertions, 13 deletions — `mcp/dist/server.js +168`, `mcp/src/server.ts +201` (prompts/resources), `_config.yml +24`, `assets/css/style.scss +64`, `theme.js +54`, `custom-head.html +36`, `REPO_HYGIENE_GUIDE.md +97`, `Dockerfile +21`
+- **CI fixes:** `5ededa3` `npx --yes typescript tsc` → `38ee9be` `./mcp/node_modules/.bin/tsc --noEmit -p mcp/tsconfig.json` (avoid `tsc@2.0.4` deprecated, use local `typescript@5.x` after `npm ci --prefix mcp`); `examples/stdio-smoke.sh` `mkdir -p "$WORKDIR"` before `existsSync` so `bash examples/stdio-smoke.sh --workdir "/tmp/with spaces/ci smoke"` no longer `workdir does not exist` → now `exitCode:0 workdir: /tmp/with spaces/ci smoke` PASS for both matrix 20/22
+- **Site (Pages/Jekyll):** `5b0b101` `remote_theme: minima` + `jekyll-seo-tag`/`jekyll-feed`; `f7aa469` `FUNDING.yml` (12 keys, max 4 `github`/`custom`, `https` only per https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository) + dark `skin: auto` + `assets/css/style.scss` `@media (prefers-color-scheme: dark)` #0d1117 overrides; `9f0507a` `url: https://srichandrasekhara.github.io` `baseurl: /forge-standard-review` + `jekyll-sitemap` + `robots.txt` sitemap, `assets/js/theme.js` toggle `localStorage["theme"]` + `data-theme` CSS, `_includes/custom-head.html` button, `index.md` `image: badge.svg` og:image, `docs/REPO_HYGIENE_GUIDE.md` step2 how-to (7 files: `.github/dependabot.yml`, `SUPPORT.md`, `CITATION.cff`, `CODEOWNERS`, `.github/ISSUE_TEMPLATE/config.yml`, `.editorconfig`, `.gitattributes`)
+- **MCP engineering:** `9f0507a` prompts `review` (`mode/file/range/focus` → ranked `critical->nitpick`) + resources `forge://.forge-standard-review/report.md`/`review.json` + `Dockerfile` `node:20-alpine` stdio `ENTRYPOINT ["node","dist/server.js"]`, `mcp/package.json` `bin/files/publishConfig`, `tsc --noEmit` clean, `npm --prefix mcp test` 28 passed, `npm pack` 7 files
+- **Verify:** `bash -n scripts/*.sh` 8 clean, `npx skills add -l` `Found 1 skill forge-standard-review`, `gh api archived:true` for legacies, `skills.sh` 404 pending <24h (poll via `bash scripts/poll-skills.sh`)
+
+## [v1.1.2] - 2026-09-07
+
+- Rename `forge-standard` → `forge-standard-review` per review name requirement: `mv` dir, `SKILL.md` `name: forge-standard-review`, `.forge-standard-review/` isolation (68 refs), `package.json`/`mcp` keywords 19, `npx -l` `Found 1 skill`, new public repo `SriChandraSekharA/forge-standard-review` UI-created, pushed `9fd650d`, tagged `v1.1.2 677627c`, `ci.yml` 71 lines, topics 8, `https://srichandrasekhara.github.io/forge-standard-review/`
+- Jekyll Pages already live `200` but dark toggle pending (fixed in v1.1.3)
+
+## [v1.1.1] - 2026-09-05
+
+- Title sync `SKILL.md:6 # Anvil Review Loop → # Forge Standard` + `CHANGELOG v1.1.0` closure `gh release v1.1.0 200`, `ci.yml` 2090B pending workflow scope, `docs/ARCHIVE_RUNBOOK/BRANCH_PROTECTION/SEO_CHECKLIST/audit-v1.1.1 406L`, `poll-skills.sh 9531B 308->404`
+
 ## [v1.1.0] - 2026-09-05 IST
 
 **Release closure:** `v1.1.0: OSS baseline + MCP stdio server`
