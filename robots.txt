@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://srichandrasekhara.github.io/forge-standard-review/sitemap.xml

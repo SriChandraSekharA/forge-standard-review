@@ -7,6 +7,35 @@
   "bin": {
     "forge-standard-review-mcp": "dist/server.js"
   },
+  "files": [
+    "dist/",
+    "README.md",
+    "mcp.json"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "code-review",
+    "pr-review",
+    "pull-request-review",
+    "code-review-checklist",
+    "security-review",
+    "vulnerability-review",
+    "owasp-review",
+    "architecture-review",
+    "code-quality-review",
+    "review-loop",
+    "iterative-review",
+    "multi-reviewer",
+    "git-diff-review",
+    "standards-review",
+    "spec-review",
+    "solid-review",
+    "quota-free-review",
+    "owasp",
+    "code-quality"
+  ],
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",

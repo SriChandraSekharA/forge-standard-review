@@ -1,0 +1,36 @@
+<script src="{{ '/assets/js/theme.js' | relative_url }}"></script>
+<style>
+  #theme-toggle {
+    border: 1px solid #dfe2e5;
+    background: #fff;
+    border-radius: 16px;
+    padding: 4px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-left: 12px;
+  }
+  html[data-theme="dark"] #theme-toggle {
+    background: #161b22;
+    color: #c9d1d9;
+    border-color: #30363d;
+  }
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var nav = document.querySelector('.site-nav') || document.querySelector('.site-header .wrapper');
+    if (nav && !document.getElementById('theme-toggle')) {
+      var btn = document.createElement('button');
+      btn.id = 'theme-toggle';
+      btn.type = 'button';
+      btn.setAttribute('aria-label', 'Toggle theme');
+      btn.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? 'Light' : 'Dark';
+      btn.addEventListener('click', function(){ if (window.toggleTheme) window.toggleTheme(); });
+      // append near nav
+      if (nav.classList.contains('site-nav')) {
+        nav.parentNode.insertBefore(btn, nav.nextSibling);
+      } else {
+        nav.appendChild(btn);
+      }
+    }
+  });
+</script>

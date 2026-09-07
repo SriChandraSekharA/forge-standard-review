@@ -3,12 +3,62 @@
 
 @import "minima";
 
-/* Dark theme — respects system preference when skin: auto */
+/* Manual toggle via html[data-theme] — works with minima skin: auto (bundle-less remote_theme) */
+html[data-theme="dark"] body {
+  background-color: #0d1117;
+  color: #c9d1d9;
+}
+html[data-theme="dark"] a {
+  color: #58a6ff;
+}
+html[data-theme="dark"] .site-header {
+  background-color: #010409;
+  border-bottom-color: #30363d;
+}
+html[data-theme="dark"] .site-title,
+html[data-theme="dark"] .site-nav .page-link {
+  color: #c9d1d9;
+}
+html[data-theme="dark"] code,
+html[data-theme="dark"] pre {
+  background-color: #161b22;
+  border-color: #30363d;
+}
+html[data-theme="dark"] .highlight {
+  background: #0d1117;
+}
+html[data-theme="dark"] .site-footer {
+  background-color: #010409;
+  border-top-color: #30363d;
+}
+
+/* System preference fallback when no explicit light choice stored */
 @media (prefers-color-scheme: dark) {
-  body { background-color: #0d1117; color: #c9d1d9; }
-  a { color: #58a6ff; }
-  .site-header { background-color: #010409; border-bottom-color: #30363d; }
-  .site-title, .site-nav .page-link { color: #c9d1d9; }
-  code, pre { background-color: #161b22; border-color: #30363d; }
-  .highlight { background: #0d1117; }
+  html:not([data-theme="light"]) body {
+    background-color: #0d1117;
+    color: #c9d1d9;
+  }
+  html:not([data-theme="light"]) a {
+    color: #58a6ff;
+  }
+  html:not([data-theme="light"]) .site-header {
+    background-color: #010409;
+    border-bottom-color: #30363d;
+  }
+  html:not([data-theme="light"]) .site-title,
+  html:not([data-theme="light"]) .site-nav .page-link {
+    color: #c9d1d9;
+  }
+  html:not([data-theme="light"]) code,
+  html:not([data-theme="light"]) pre {
+    background-color: #161b22;
+    border-color: #30363d;
+  }
+  html:not([data-theme="light"]) .highlight {
+    background: #0d1117;
+  }
+  html:not([data-theme="light"]) .site-footer {
+    background-color: #010409;
+    border-top-color: #30363d;
+  }
 }

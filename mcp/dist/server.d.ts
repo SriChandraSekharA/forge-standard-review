@@ -33,6 +33,36 @@ export declare const FORGE_REVIEW_TOOL: {
         required: string[];
     };
 };
+export declare const REVIEW_PROMPT: {
+    name: string;
+    description: string;
+    arguments: {
+        name: string;
+        description: string;
+        required: boolean;
+    }[];
+};
+export declare function buildReviewPromptText(args: {
+    mode?: string;
+    file?: string;
+    range?: string;
+    focus?: string;
+}): string;
+export declare const REPORT_RESOURCE_URI = "forge://.forge-standard/report.md";
+export declare const REPORT_RESOURCE_URI_CANONICAL = "file://.forge-standard-review/report.md";
+export declare const REVIEW_JSON_RESOURCE_URI = "forge://.forge-standard/review.json";
+export declare const FORGE_RESOURCES: {
+    uri: string;
+    name: string;
+    description: string;
+    mimeType: string;
+}[];
+export declare function resolveReportPaths(repoRoot: string): string[];
+export declare function resolveReviewJsonPaths(repoRoot: string): string[];
+export declare function readFirstExisting(paths: string[]): {
+    path: string;
+    content: string;
+} | null;
 export declare const server: Server<{
     method: string;
     params?: {

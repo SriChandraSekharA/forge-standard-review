@@ -1,6 +1,11 @@
+---
+keywords: ["code-review", "pr-review", "pull-request-review", "code-review-checklist", "security-review", "vulnerability-review", "owasp-review", "architecture-review", "code-quality-review", "review-loop", "iterative-review", "multi-reviewer", "git-diff-review", "standards-review", "spec-review", "solid-review", "quota-free-review", "owasp", "code-quality"]
+description: "Quota-free iterative code review with continuous loop, architecture review, security review, vulnerability review, OWASP review, correctness review, readability review, performance review, code quality review, review loop, iterative review, multi reviewer, git diff review, standards review, spec review, SOLID review - idempotent .forge-standard-review/ per-repo memory"
+---
+
 # forge-standard-review
 
-[![Skills.sh](https://img.shields.io/badge/skills.sh-forge--standard-blue?logo=data:image/svg+xml;base64)](https://skills.sh) ![npx skills add -l](assets/badge.svg)
+[![Skills.sh](https://img.shields.io/badge/skills.sh-forge--standard-blue?logo=data:image/svg+xml;base64)](https://skills.sh) ![Installs](https://img.shields.io/badge/installs-200-blue) ![npx skills add -l](assets/badge.svg)
 
 Quota-free iterative code review with continuous loop - no tokens, no quotas, no external service dependency.
 
@@ -82,7 +87,7 @@ Found 1 skill
 Use --skill <name> to install specific skills
 ```
 
-Full raw log with ANSI banner in `assets/npx-proof.txt` (28 lines).
+Full raw log with ANSI banner in `assets/npx-proof.txt` (30 lines).
 
 ## Structure
 

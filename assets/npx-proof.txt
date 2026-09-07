@@ -1,3 +1,5 @@
+npm notice run npx
+npm notice run 'skills' add /Users/webileapps/Chandu/github/forge-standard-review -l
 
 [38;5;250m███████╗██╗  ██╗██╗██╗     ██╗     ███████╗[0m
 [38;5;248m██╔════╝██║ ██╔╝██║██║     ██║     ██╔════╝[0m
@@ -10,18 +12,18 @@
 │
 │  Tip: use the --yes (-y) and --global (-g) flags to install without prompts.
 [?25l│
-◇  Source: /Users/webileapps/Chandu/github/forge-standard
+◇  Source: /Users/webileapps/Chandu/github/forge-standard-review
 [?25h[?25l│
 ◇  Local path validated
 [?25h[?25l│
-◒  Discovering skills…[1G[J◇  Found 1 skill
+◇  Found 1 skill
 [?25h
 │
 ◇  Available Skills
 │
-│    forge-standard
+│    forge-standard-review
 │
-│      Quota-free iterative code review with continuous loop, architecture review, security review, vulnerability review, OWASP review, correctness review, readability review, performance review, code quality review, review loop, iterative review, multi reviewer, git diff review, standards review, spec review, SOLID review - idempotent .forge-standard/ per-repo memory
+│      Quota-free iterative code review with continuous loop, architecture review, security review, vulnerability review, OWASP review, correctness review, readability review, performance review, code quality review, review loop, iterative review, multi reviewer, git diff review, standards review, spec review, SOLID review - idempotent .forge-standard-review/ per-repo memory
 
 │
 └  Use --skill <name> to install specific skills

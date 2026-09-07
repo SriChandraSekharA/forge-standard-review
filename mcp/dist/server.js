@@ -5,7 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { CallToolRequestSchema, ListToolsRequestSchema, } from "@modelcontextprotocol/sdk/types.js";
+import { CallToolRequestSchema, GetPromptRequestSchema, ListPromptsRequestSchema, ListResourcesRequestSchema, ListToolsRequestSchema, ReadResourceRequestSchema, } from "@modelcontextprotocol/sdk/types.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 export function getVersionSync() {
@@ -60,18 +60,184 @@ export const FORGE_REVIEW_TOOL = {
         required: [],
     },
 };
+// --- Prompts (MCP spec: ListPrompts + GetPrompt) ---
+export const REVIEW_PROMPT = {
+    name: "review",
+    description: "Generate a ranked forge-standard review prompt (critical->high->medium->low->nitpick) for the forge_review tool. Use with forge_review tool call.",
+    arguments: [
+        {
+            name: "mode",
+            description: "Review mode: auto | staged | range | file",
+            required: false,
+        },
+        {
+            name: "file",
+            description: "File path for file mode",
+            required: false,
+        },
+        {
+            name: "range",
+            description: "Git range for range mode, e.g. HEAD~1..HEAD",
+            required: false,
+        },
+        {
+            name: "focus",
+            description: "Optional focus area: security, architecture, correctness, readability, performance",
+            required: false,
+        },
+    ],
+};
+export function buildReviewPromptText(args) {
+    const mode = args.mode ?? "auto";
+    const parts = [];
+    parts.push("You are a senior reviewer running forge-standard-review. Rank findings critical->high->medium->low->nitpick.");
+    parts.push(`Mode: ${mode}.`);
+    if (args.file)
+        parts.push(`File: ${args.file}.`);
+    if (args.range)
+        parts.push(`Range: ${args.range}.`);
+    if (args.focus)
+        parts.push(`Focus: ${args.focus}.`);
+    parts.push("Use the forge_review tool with the matching mode/range/file args and workdir. Keep artifacts in .forge-standard-review/ (report.md, review.json, learning.md). Local only, no network.");
+    return parts.join(" ");
+}
+// --- Resources (MCP spec: ListResources + ReadResource) ---
+export const REPORT_RESOURCE_URI = "forge://.forge-standard/report.md";
+export const REPORT_RESOURCE_URI_CANONICAL = "file://.forge-standard-review/report.md";
+export const REVIEW_JSON_RESOURCE_URI = "forge://.forge-standard/review.json";
+export const FORGE_RESOURCES = [
+    {
+        uri: REPORT_RESOURCE_URI,
+        name: ".forge-standard/report.md",
+        description: "Ranked review report (critical->high->medium->low->nitpick) from .forge-standard-review/report.md or .forge-standard/report.md",
+        mimeType: "text/markdown",
+    },
+    {
+        uri: REPORT_RESOURCE_URI_CANONICAL,
+        name: ".forge-standard-review/report.md",
+        description: "Canonical ranked report at .forge-standard-review/report.md",
+        mimeType: "text/markdown",
+    },
+    {
+        uri: REVIEW_JSON_RESOURCE_URI,
+        name: ".forge-standard/review.json",
+        description: "Machine-readable ranked findings at .forge-standard-review/review.json",
+        mimeType: "application/json",
+    },
+];
+export function resolveReportPaths(repoRoot) {
+    return [
+        path.join(repoRoot, ".forge-standard-review", "report.md"),
+        path.join(repoRoot, ".forge-standard", "report.md"),
+    ];
+}
+export function resolveReviewJsonPaths(repoRoot) {
+    return [
+        path.join(repoRoot, ".forge-standard-review", "review.json"),
+        path.join(repoRoot, ".forge-standard", "review.json"),
+    ];
+}
+export function readFirstExisting(paths) {
+    for (const p of paths) {
+        try {
+            if (existsSync(p)) {
+                const content = readFileSync(p, "utf-8");
+                return { path: p, content };
+            }
+        }
+        catch {
+            // ignore and try next
+        }
+    }
+    return null;
+}
 export const server = new Server({
     name: "forge-standard-review",
     version: VERSION,
 }, {
     capabilities: {
         tools: {},
+        prompts: {},
+        resources: {},
     },
 });
 server.setRequestHandler(ListToolsRequestSchema, async () => {
     return {
         tools: [FORGE_REVIEW_TOOL],
     };
+});
+server.setRequestHandler(ListPromptsRequestSchema, async () => {
+    return {
+        prompts: [REVIEW_PROMPT],
+    };
+});
+server.setRequestHandler(GetPromptRequestSchema, async (request) => {
+    const { name, arguments: args } = request.params;
+    if (name !== REVIEW_PROMPT.name) {
+        throw new Error(`Unknown prompt: ${name}`);
+    }
+    const typed = (args ?? {});
+    const text = buildReviewPromptText(typed);
+    return {
+        description: REVIEW_PROMPT.description,
+        messages: [
+            {
+                role: "user",
+                content: {
+                    type: "text",
+                    text,
+                },
+            },
+        ],
+    };
+});
+server.setRequestHandler(ListResourcesRequestSchema, async () => {
+    return {
+        resources: FORGE_RESOURCES,
+    };
+});
+server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
+    const { uri } = request.params;
+    const repoRoot = resolveRepoRoot();
+    // Normalize uri handling for report.md and review.json resources
+    const isReport = uri === REPORT_RESOURCE_URI ||
+        uri === REPORT_RESOURCE_URI_CANONICAL ||
+        uri.endsWith("/report.md") ||
+        uri === "forge://report.md";
+    const isReviewJson = uri === REVIEW_JSON_RESOURCE_URI ||
+        uri.endsWith("/review.json") ||
+        uri === "forge://review.json";
+    if (isReport) {
+        const found = readFirstExisting(resolveReportPaths(repoRoot));
+        if (!found) {
+            throw new Error(`Report not found. Tried: ${resolveReportPaths(repoRoot).join(", ")} (repoRoot=${repoRoot}). Run forge_review first.`);
+        }
+        return {
+            contents: [
+                {
+                    uri,
+                    mimeType: "text/markdown",
+                    text: found.content,
+                },
+            ],
+        };
+    }
+    if (isReviewJson) {
+        const found = readFirstExisting(resolveReviewJsonPaths(repoRoot));
+        if (!found) {
+            throw new Error(`review.json not found. Tried: ${resolveReviewJsonPaths(repoRoot).join(", ")} (repoRoot=${repoRoot}). Run forge_review first.`);
+        }
+        return {
+            contents: [
+                {
+                    uri,
+                    mimeType: "application/json",
+                    text: found.content,
+                },
+            ],
+        };
+    }
+    throw new Error(`Unknown resource: ${uri}`);
 });
 export function resolveRepoRoot() {
     // mcp/src/server.ts -> mcp/dist/server.js at runtime; repo root is two levels up from mcp/
