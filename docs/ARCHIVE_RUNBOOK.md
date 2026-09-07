@@ -91,10 +91,14 @@ cat "/tmp/qodo-standard-review/ARCHIVED_NOTICE.md"
 head -n 3 "/tmp/anvil-review-loop/README.md"  # -> > **Archived - moved to forge-standard-review**
 head -n 3 "/tmp/qodo-standard-review/README.md"
 
-# 5) canonical release + tag (quoted workdir)
-git -C "/Users/webileapps/Chandu/github/forge-standard-review" rev-parse HEAD  # c9724d5
-git -C "/Users/webileapps/Chandu/github/forge-standard-review" tag -l -n1      # v1.1.0
-gh api repos/SriChandraSekharA/forge-standard-review/releases/tags/v1.1.0 --jq .tag_name  # v1.1.0
+# 5) canonical releases + tags (quoted workdir) — v1.1.3 now HEAD 178dea6
+git -C "/Users/webileapps/Chandu/github/forge-standard-review" rev-parse HEAD  # 178dea6 (v1.1.3)
+git -C "/Users/webileapps/Chandu/github/forge-standard-review" tag -l -n1      # v1.0.0 v1.1.0 v1.1.1 v1.1.2 v1.1.3
+git -C "/Users/webileapps/Chandu/github/forge-standard-review" log --oneline -4 # 178dea6..5ededa3..ea93521..9f0507a
+gh api repos/SriChandraSekharA/forge-standard-review/releases/tags/v1.1.3 --jq .tag_name  # v1.1.3 (after UI publish)
+gh api repos/SriChandraSekharA/forge-standard-review/releases --jq '.[].tag_name' # list v1.1.3 when live
+# v1.1.2 9fd650d / v1.1.1 7a28222 / v1.1.0 cb1fa70 heads below — tag push via git push --tags (no gh release scope)
+git ls-remote --tags origin | grep v1.1.3  # eb55395 refs/tags/v1.1.3 -> 178dea6^{}
 
 # 6) skills.sh propagation (quoted curl -I — 308→200 when indexed; may be 404→200 propagation delay, not blocking)
 curl -I "https://skills.sh/SriChandraSekharA/forge-standard-review"
@@ -114,6 +118,22 @@ Legacy `archived:false → true` transition is owner-gated; no automated `gh rep
 - `403` on `gh repo archive` → confirms non-admin token; do not retry — use UI or admin PAT per Option B.
 - `archived:false` after UI click → hard refresh repo settings, re-run `gh api repos/... --jq .archived`; GraphQL cache may lag seconds.
 - `skills.sh` `curl -I` 404 → crawl delay (<24h after `c9724d5` push with 8 topics); re-run `curl -I https://skills.sh/SriChandraSekharA/forge-standard-review` after a day. Not blocking archive.
+
+## Release v1.1.3 — manual gate (same 403 as archive)
+
+`git push --tags` for `v1.1.3 eb55395 -> 178dea6` succeeded (tags are not workflow-scoped), but
+
+```bash
+gh release create v1.1.3 --title "v1.1.3: site SEO + sponsors + CI fixes + smoke workdir" --target 178dea6
+# -> 403 Resource not accessible by personal access token (https://api.github.com/repos/.../releases) — needs contents:write
+```
+
+Owner UI fallback (same as archive Option A):
+
+1. `https://github.com/SriChandraSekharA/forge-standard-review/releases/new` → Tag `v1.1.3` → Target `main` (`178dea6`) → Title `v1.1.3: site SEO + sponsors + CI fixes + smoke workdir` → Notes: copy `CHANGELOG.md ## [v1.1.3]` section → Publish release
+2. Verify: `gh api repos/SriChandraSekharA/forge-standard-review/releases/tags/v1.1.3 --jq .tag_name` → `v1.1.3`, `gh release view v1.1.3 --json tagName,publishedAt,url` → `200`
+
+Tag `v1.1.3` already at `eb55395` → `178dea6^{}` (`git ls-remote --tags origin | grep v1.1.3`), draft `v1.1.2 9fd650d` + `v1.1.1 7a28222` also pushed via `git push --tags`.
 
 ## References
 
