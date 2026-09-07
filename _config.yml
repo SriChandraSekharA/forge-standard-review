@@ -1,0 +1,7 @@
+remote_theme: minima
+title: Forge Standard Review
+description: Quota-free iterative code review with continuous loop — idempotent .forge-standard-review/ per-repo memory
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+markdown: kramdown
