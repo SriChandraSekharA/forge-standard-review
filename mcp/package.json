@@ -1,11 +1,11 @@
 {
-  "name": "forge-standard-mcp",
+  "name": "forge-standard-review-mcp",
   "version": "1.0.0",
-  "description": "MCP server for forge-standard — stdio JSON-RPC wrapping review.sh forge_review tool",
+  "description": "MCP server for forge-standard-review — stdio JSON-RPC wrapping review.sh forge_review tool",
   "type": "module",
   "main": "dist/server.js",
   "bin": {
-    "forge-standard-mcp": "dist/server.js"
+    "forge-standard-review-mcp": "dist/server.js"
   },
   "scripts": {
     "build": "tsc",

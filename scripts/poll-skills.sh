@@ -1,25 +1,25 @@
 #!/usr/bin/env bash
 set -euo pipefail
 # Task 8.2 skills.sh Polling Harness — 2026-09-05
-# Workdir: "/Users/webileapps/Chandu/github/forge-standard" HEAD c9724d5 tag v1.1.0 cb1fa70
-# Purpose: poll https://skills.sh/SriChandraSekharA/forge-standard (308→www) without tight loop;
+# Workdir: "/Users/webileapps/Chandu/github/forge-standard-review" HEAD c9724d5 tag v1.1.0 cb1fa70
+# Purpose: poll https://skills.sh/SriChandraSekharA/forge-standard-review (308→www) without tight loop;
 #          404 with NEXT_HTTP_ERROR_FALLBACK is pending <24h, not publish failure.
 #          Direct npx add -l Found 1 skill is truth.
-# Usage: bash "/Users/webileapps/Chandu/github/forge-standard/scripts/poll-skills.sh"
+# Usage: bash "/Users/webileapps/Chandu/github/forge-standard-review/scripts/poll-skills.sh"
 #        Re-run manually; no loop. Logs to .omo/verify.log, .omo/notepad.md, durable.
 
-WORKDIR="/Users/webileapps/Chandu/github/forge-standard"
+WORKDIR="/Users/webileapps/Chandu/github/forge-standard-review"
 DURABLE="/var/folders/4l/6c2fc7hj6sn1b4sqf9j_wwkc0000gn/T/ulw-20260905-XXXXXX.md.xxFgv7WX6G"
-VERIFY_LOG="/Users/webileapps/Chandu/github/forge-standard/.omo/verify.log"
-NOTEPAD="/Users/webileapps/Chandu/github/forge-standard/.omo/notepad.md"
+VERIFY_LOG="/Users/webileapps/Chandu/github/forge-standard-review/.omo/verify.log"
+NOTEPAD="/Users/webileapps/Chandu/github/forge-standard-review/.omo/notepad.md"
 TMP_BODY="/tmp/skills_body.html"
 TMP_BODY_WWW="/tmp/skills_body_www.html"
 
-URL_A="https://skills.sh/SriChandraSekharA/forge-standard"
-URL_B="https://www.skills.sh/SriChandraSekharA/forge-standard"
+URL_A="https://skills.sh/SriChandraSekharA/forge-standard-review"
+URL_B="https://www.skills.sh/SriChandraSekharA/forge-standard-review"
 # lowercase variants (skills.sh normalizes to lowercase)
-URL_A_LC="https://skills.sh/srichandrasekhara/forge-standard"
-URL_B_LC="https://www.skills.sh/srichandrasekhara/forge-standard"
+URL_A_LC="https://skills.sh/srichandrasekhara/forge-standard-review"
+URL_B_LC="https://www.skills.sh/srichandrasekhara/forge-standard-review"
 
 timestamp_utc="$(date -u +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || date -u 2>/dev/null)"
 timestamp_ist="$(TZ='Asia/Kolkata' date +"%Y-%m-%dT%H:%M:%S %Z %z" 2>/dev/null || date +"%Y-%m-%dT%H:%M:%S IST" 2>/dev/null)"
@@ -59,7 +59,7 @@ fi
 echo ""
 
 # --- curl -sL -w HTTP_CODE + og:title extraction for both hosts (lowercase check) ---
-echo "## curl -sL -w HTTP_CODE + og:title srichandrasekhara/forge-standard extraction"
+echo "## curl -sL -w HTTP_CODE + og:title srichandrasekhara/forge-standard-review extraction"
 echo ""
 
 poll_url() {
@@ -73,14 +73,14 @@ poll_url() {
     echo "--- body head ---"
     head -n 40 "${tmp}" 2>/dev/null | tr -d '\r' | head -n 40 || true
     echo "--- og:title extraction ---"
-    # og:title and srichandrasekhara/forge-standard lowercase
+    # og:title and srichandrasekhara/forge-standard-review lowercase
     grep -i "og:title" "${tmp}" 2>/dev/null | head -n 5 || echo "(no og:title line)"
-    grep -i "srichandrasekhara/forge-standard" "${tmp}" 2>/dev/null | head -n 5 || echo "(no srichandrasekhara/forge-standard in body)"
+    grep -i "srichandrasekhara/forge-standard-review" "${tmp}" 2>/dev/null | head -n 5 || echo "(no srichandrasekhara/forge-standard-review in body)"
     if grep -qi "NEXT_HTTP_ERROR_FALLBACK" "${tmp}" 2>/dev/null; then
       echo "Body contains NEXT_HTTP_ERROR_FALLBACK (404 page shell) — propagation pending <24h, NOT publish failure"
     fi
-    if grep -qi "srichandrasekhara/forge-standard" "${tmp}" 2>/dev/null; then
-      echo "Found srichandrasekhara/forge-standard (lowercase) in og:title/body — canonical present"
+    if grep -qi "srichandrasekhara/forge-standard-review" "${tmp}" 2>/dev/null; then
+      echo "Found srichandrasekhara/forge-standard-review (lowercase) in og:title/body — canonical present"
     fi
   else
     echo "curl not found"
@@ -112,13 +112,13 @@ else
 fi
 echo ""
 
-# --- npx --yes skills add SriChandraSekharA/forge-standard --skill forge-standard -g check (remote) ---
-echo "## npx --yes skills add SriChandraSekharA/forge-standard --skill forge-standard -g check (remote)"
+# --- npx --yes skills add SriChandraSekharA/forge-standard-review --skill forge-standard-review -g check (remote) ---
+echo "## npx --yes skills add SriChandraSekharA/forge-standard-review --skill forge-standard-review -g check (remote)"
 echo "# Note: may 404 until crawl <24h; 404 is pending, not failure"
 if command -v npx >/dev/null 2>&1; then
   # We run with || true so 404 does not fail script (MUST NOT treat 404 as publish failure)
   # No timeout on macOS (timeout missing); use || true and head to bound
-  npx --yes skills add SriChandraSekharA/forge-standard --skill forge-standard -g 2>&1 | head -n 80 || true
+  npx --yes skills add SriChandraSekharA/forge-standard-review --skill forge-standard-review -g 2>&1 | head -n 80 || true
 else
   echo "npx not found"
 fi
@@ -135,7 +135,7 @@ echo "Timestamp UTC: ${timestamp_utc} IST: ${timestamp_ist}"
 echo "308 chain: ${URL_A} -> ${URL_B} (308 ok)"
 echo "HTTP_CODE + og:title logged above for both https://skills.sh/... and https://www.skills.sh/... lowercase"
 echo "Local: npx --yes skills add \"${WORKDIR}\" -l => Found 1 skill (truth)"
-echo "Remote: npx --yes skills add SriChandraSekharA/forge-standard --skill forge-standard -g => pending if 404"
+echo "Remote: npx --yes skills add SriChandraSekharA/forge-standard-review --skill forge-standard-review -g => pending if 404"
 echo "No tight loop — single poll per invocation. 404 with NEXT_HTTP_ERROR_FALLBACK is NOT publish failure."
 echo ""
 
@@ -150,7 +150,7 @@ log_target() {
     echo "Timestamp UTC: ${timestamp_utc} IST: ${timestamp_ist}"
     echo "Workdir: \"${WORKDIR}\""
     echo "Durable: \"${DURABLE}\""
-    echo "URL_A: ${URL_A} URL_B: ${URL_B} (lowercase srichandrasekhara/forge-standard)"
+    echo "URL_A: ${URL_A} URL_B: ${URL_B} (lowercase srichandrasekhara/forge-standard-review)"
     # Capture last HTTP_CODE/EFFECTIVE_URL for both
     if [ -f "${TMP_BODY}" ]; then
       echo "Body file: ${TMP_BODY} size $(wc -c < "${TMP_BODY}" 2>/dev/null || echo 0)B"
@@ -166,15 +166,15 @@ log_target() {
       if grep -qi "NEXT_HTTP_ERROR_FALLBACK" /tmp/skills_body_log.html 2>/dev/null || grep -qi "NEXT_HTTP_ERROR_FALLBACK" "${TMP_BODY}" 2>/dev/null; then
         echo "NEXT_HTTP_ERROR_FALLBACK present (404 shell) — propagation pending <24h, not publish failure"
       fi
-      grep -i "srichandrasekhara/forge-standard" /tmp/skills_body_log.html 2>/dev/null | head -n 3 || grep -i "srichandrasekhara/forge-standard" "${TMP_BODY}" 2>/dev/null | head -n 3 || echo "(canonical lowercase not in body — check og:title)"
+      grep -i "srichandrasekhara/forge-standard-review" /tmp/skills_body_log.html 2>/dev/null | head -n 3 || grep -i "srichandrasekhara/forge-standard-review" "${TMP_BODY}" 2>/dev/null | head -n 3 || echo "(canonical lowercase not in body — check og:title)"
     fi
     echo "npx --yes skills add \"${WORKDIR}\" -l:"
     if command -v npx >/dev/null 2>&1; then
-      npx --yes skills add "${WORKDIR}" -l 2>&1 | grep -E "Found 1 skill|Available Skills|forge-standard|Local path validated|Source:" | head -n 10 || true
+      npx --yes skills add "${WORKDIR}" -l 2>&1 | grep -E "Found 1 skill|Available Skills|forge-standard-review|Local path validated|Source:" | head -n 10 || true
     fi
-    echo "npx --yes skills add SriChandraSekharA/forge-standard --skill forge-standard -g: (head)"
+    echo "npx --yes skills add SriChandraSekharA/forge-standard-review --skill forge-standard-review -g: (head)"
     if command -v npx >/dev/null 2>&1; then
-      npx --yes skills add SriChandraSekharA/forge-standard --skill forge-standard -g 2>&1 | head -n 20 || echo "(remote check 404 pending — retry later)"
+      npx --yes skills add SriChandraSekharA/forge-standard-review --skill forge-standard-review -g 2>&1 | head -n 20 || echo "(remote check 404 pending — retry later)"
     fi
     echo "Note: 404 with NEXT_HTTP_ERROR_FALLBACK is propagation pending (<24h), NOT publish failure. No tight loop. No git push. No package.json/SKILL.md edit to force crawl."
   } >> "${file}" 2>&1 || true

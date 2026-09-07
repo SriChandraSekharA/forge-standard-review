@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# forge-standard MCP stdio smoke test
+# forge-standard-review MCP stdio smoke test
 # Pipes JSON-RPC initialize, initialized notification, tools/list, tools/call through mcp/dist/server.js
 # Workdir param is quoted and supports paths with spaces.
 # Usage: bash examples/stdio-smoke.sh [--workdir "/path/with spaces"]
@@ -92,8 +92,8 @@ if ! grep -q '"serverInfo"' "$OUT"; then
   echo "FAIL: missing serverInfo in initialize response" >&2
   exit 1
 fi
-if ! grep -q '"forge-standard"' "$OUT"; then
-  echo "FAIL: serverInfo.name != forge-standard" >&2
+if ! grep -q '"forge-standard-review"' "$OUT"; then
+  echo "FAIL: serverInfo.name != forge-standard-review" >&2
   exit 1
 fi
 

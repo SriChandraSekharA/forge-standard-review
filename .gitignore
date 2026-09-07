@@ -1,4 +1,4 @@
-.forge-standard/
+.forge-standard-review/
 *.log
 !.omo/verify.log
 .DS_Store

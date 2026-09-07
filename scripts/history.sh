@@ -2,7 +2,7 @@
 set -euo pipefail
 # feat: VCS history sync - git log --oneline -30 > history.md with newline guard, hg/no-vcs fallback
 
-target_dir="${1:-.forge-standard}"
+target_dir="${1:-.forge-standard-review}"
 mkdir -p "$target_dir"
 
 ts_hist="$(date +"%Y-%m-%dT%H:%M:%S+05:30" 2>/dev/null || date -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || echo "")"

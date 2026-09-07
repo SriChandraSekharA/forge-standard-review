@@ -38,7 +38,7 @@ export const VERSION = getVersionSync();
 export const FORGE_REVIEW_TOOL = {
   name: "forge_review",
   description:
-    "Run forge-standard review loop (wraps scripts/review.sh). Supports staged, range, and file modes with ranked report critical->high->medium->low->nitpick. Local only, no network.",
+    "Run forge-standard-review review loop (wraps scripts/review.sh). Supports staged, range, and file modes with ranked report critical->high->medium->low->nitpick. Local only, no network.",
   inputSchema: {
     type: "object" as const,
     properties: {
@@ -71,7 +71,7 @@ export const FORGE_REVIEW_TOOL = {
 
 export const server = new Server(
   {
-    name: "forge-standard",
+    name: "forge-standard-review",
     version: VERSION,
   },
   {
@@ -221,10 +221,10 @@ export async function handleForgeReview(rawArgs: unknown): Promise<{
     .filter(Boolean)
     .join("\n\n");
 
-  // Also surface .forge-standard/run-*.log and review artifacts if present
+  // Also surface .forge-standard-review/run-*.log and review artifacts if present
   let extra = "";
   try {
-    const logDir = path.join(workdir, ".forge-standard");
+    const logDir = path.join(workdir, ".forge-standard-review");
     if (existsSync(logDir)) {
       extra = `\n\nArtifacts in ${logDir} (learning.md, run-*.log, state.json)`;
     }
@@ -264,7 +264,7 @@ const isDirectRun =
   (process.argv[1].endsWith("server.js") || process.argv[1].endsWith("server.ts"));
 if (isDirectRun) {
   main().catch((err) => {
-    console.error("forge-standard MCP server failed to start:", err);
+    console.error("forge-standard-review MCP server failed to start:", err);
     process.exit(1);
   });
 }

@@ -1,22 +1,22 @@
-# Contributing to forge-standard
+# Contributing to forge-standard-review
 
-Thanks for helping make forge-standard better. This guide explains how to set up the project, propose changes, and get them reviewed.
+Thanks for helping make forge-standard-review better. This guide explains how to set up the project, propose changes, and get them reviewed.
 
 ## Setup
 
 Clone and install the skill locally with npx:
 
 ```bash
-git clone https://github.com/SriChandraSekharA/forge-standard.git
-cd forge-standard
-npx --yes skills add . --skill forge-standard -g -y
+git clone https://github.com/SriChandraSekharA/forge-standard-review.git
+cd forge-standard-review
+npx --yes skills add . --skill forge-standard-review -g -y
 ```
 
 Verify the install:
 
 ```bash
 npx --yes skills add . -l
-# Expected: Source validated, Found 1 skill (forge-standard)
+# Expected: Source validated, Found 1 skill (forge-standard-review)
 ```
 
 Requirements:
@@ -33,7 +33,7 @@ Requirements:
    git checkout -b feat/your-change
    ```
 
-2. Make focused changes. Keep scripts small and POSIX friendly, preserve the idempotent `.forge-standard/` contract.
+2. Make focused changes. Keep scripts small and POSIX friendly, preserve the idempotent `.forge-standard-review/` contract.
 
 3. Validate locally before pushing:
 
@@ -53,10 +53,10 @@ Requirements:
    ./scripts/report.sh --format markdown --output review.md
    ```
 
-5. Check that `grep forge-standard SKILL.md` still shows the correct frontmatter name:
+5. Check that `grep forge-standard-review SKILL.md` still shows the correct frontmatter name:
 
    ```bash
-   grep forge-standard SKILL.md
+   grep forge-standard-review SKILL.md
    ```
 
 ## PR Process
@@ -66,7 +66,7 @@ Requirements:
 - Link any related issue in the description (`Closes #123`).
 - Ensure CI is green: `bash -n`, type check, and tests.
 - Request review and respond to feedback. One approval is enough for merge.
-- Do not commit `.forge-standard/` or other generated artifacts. They are gitignored.
+- Do not commit `.forge-standard-review/` or other generated artifacts. They are gitignored.
 - Follow the existing code style. Run shellcheck where available.
 
 ## Reporting Issues

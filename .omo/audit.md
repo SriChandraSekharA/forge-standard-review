@@ -1,9 +1,9 @@
 # Forge-Standard MCP+OSS Standardization — Gap Audit (Task 1 Inventory)
 
 Generated: 2026-09-05T05:30:00+05:30 IST
-Canonical: `SriChandraSekharA/forge-standard` HEAD `09312ed15847449211b4852ec3d4e5822a9e697a` tag `v1.0.0` origin `forge-standard`
+Canonical: `SriChandraSekharA/forge-standard-review` HEAD `09312ed15847449211b4852ec3d4e5822a9e697a` tag `v1.0.0` origin `forge-standard-review`
 Legacies: `SriChandraSekharA/anvil-review-loop` HEAD `685c52c44b9daf4a2a836da60652fae252db1353`, `SriChandraSekharA/qodo-standard-review` HEAD `53319ab35310c3c2fcf0e9345b47dfa6f561c488`
-Skills.sh: `https://skills.sh/SriChandraSekharA/forge-standard` → 404 (pending <24h) — verified via curl -sL (NEXT_HTTP_ERROR_FALLBACK;404, body contains "This page could not be found")
+Skills.sh: `https://skills.sh/SriChandraSekharA/forge-standard-review` → 404 (pending <24h) — verified via curl -sL (NEXT_HTTP_ERROR_FALLBACK;404, body contains "This page could not be found")
 Durable notepad: `/var/folders/4l/6c2fc7hj6sn1b4sqf9j_wwkc0000gn/T/ulw-20260905-XXXXXX.md.xxFgv7WX6G` + `.omo/notepad.md`
 
 ## Evidence (raw captures — required tools)
@@ -12,7 +12,7 @@ Durable notepad: `/var/folders/4l/6c2fc7hj6sn1b4sqf9j_wwkc0000gn/T/ulw-20260905-
 
 ```bash
 # canonical
-git ls-remote https://github.com/SriChandraSekharA/forge-standard.git
+git ls-remote https://github.com/SriChandraSekharA/forge-standard-review.git
 09312ed15847449211b4852ec3d4e5822a9e697a HEAD
 09312ed15847449211b4852ec3d4e5822a9e697a refs/heads/main
 edef5bc03299fd67d3f1293eeab026636b1783aa refs/tags/v1.0.0
@@ -32,8 +32,8 @@ git ls-remote https://github.com/SriChandraSekharA/qodo-standard-review.git
 ### gh repo view (gh api)
 
 ```json
-// gh api repos/SriChandraSekharA/forge-standard --jq '{name,private,archived,topics,license}'
-{"archived":false,"name":"forge-standard","private":false,"visibility":"public","license":null,"topics":["code-quality","code-review","owasp","pr-review","pull-request-review","review-loop","security-review","vulnerability-review"]}
+// gh api repos/SriChandraSekharA/forge-standard-review --jq '{name,private,archived,topics,license}'
+{"archived":false,"name":"forge-standard-review","private":false,"visibility":"public","license":null,"topics":["code-quality","code-review","owasp","pr-review","pull-request-review","review-loop","security-review","vulnerability-review"]}
 // 8 topics
 
 // gh api repos/SriChandraSekharA/anvil-review-loop
@@ -44,10 +44,10 @@ git ls-remote https://github.com/SriChandraSekharA/qodo-standard-review.git
 {"archived":false,"name":"qodo-standard-review","private":false,"license":null,"topics":[]}
 // 0 topics, public, not archived
 
-// gh api repos/SriChandraSekharA/forge-standard/license
+// gh api repos/SriChandraSekharA/forge-standard-review/license
 {"message":"Not Found","status":"404"} // no LICENSE object
 
-// gh api repos/SriChandraSekharA/forge-standard/contents
+// gh api repos/SriChandraSekharA/forge-standard-review/contents
 [".gitignore","AGENTS.md","README.md","SKILL.md","assets","fixture_test.js","package.json","references","scripts","templates"]
 // anvil-review-loop/contents: [".gitignore","AGENTS.md","README.md","SKILL.md","fixture_test.js","references","scripts","templates"]
 // qodo-standard-review/contents: [".review-memory.json","README.md","SKILL.md","references","scripts"]
@@ -56,21 +56,21 @@ git ls-remote https://github.com/SriChandraSekharA/qodo-standard-review.git
 ### curl skills.sh (skills.sh 404 pending)
 
 ```bash
-curl -s -o /tmp/skills_check.txt -w "%{http_code}" "https://skills.sh/SriChandraSekharA/forge-standard"
+curl -s -o /tmp/skills_check.txt -w "%{http_code}" "https://skills.sh/SriChandraSekharA/forge-standard-review"
 # => 308 Redirecting...
-curl -sL -w "\nHTTP_CODE:%{http_code}\n" "https://skills.sh/SriChandraSekharA/forge-standard"
+curl -sL -w "\nHTTP_CODE:%{http_code}\n" "https://skills.sh/SriChandraSekharA/forge-standard-review"
 # => HTTP_CODE:404 body NEXT_HTTP_ERROR_FALLBACK;404 "This page could not be found"
-# Title: srichandrasekhara/forge-standard — Agent skills (og:title) — but page renders 404 shell
+# Title: srichandrasekhara/forge-standard-review — Agent skills (og:title) — but page renders 404 shell
 ```
 
 ### Local file reads (package.json / SKILL.md / README / dirs)
 
 ```json
-// package.json (pre-fix) — /Users/webileapps/Chandu/github/forge-standard/package.json
+// package.json (pre-fix) — /Users/webileapps/Chandu/github/forge-standard-review/package.json
 {
-  "name": "forge-standard",
+  "name": "forge-standard-review",
   "version": "1.0.0",
-  "skills": ["forge-standard"],  // skills field exists, correctly named
+  "skills": ["forge-standard-review"],  // skills field exists, correctly named
   "keywords": ["code-review",...,"anvil","owasp","code-quality"] // LEAK: "anvil" present — removed in this audit
   "license": "MIT"
 }
@@ -79,15 +79,15 @@ curl -sL -w "\nHTTP_CODE:%{http_code}\n" "https://skills.sh/SriChandraSekharA/fo
 ```yaml
 // SKILL.md frontmatter — line 1-4
 ---
-name: forge-standard
-description: "Quota-free iterative code review with continuous loop, architecture review, security review, vulnerability review, OWASP review, correctness review, readability review, performance review, code quality review, review loop, iterative review, multi reviewer, git diff review, standards review, spec review, SOLID review — idempotent .forge-standard/ per-repo memory"
+name: forge-standard-review
+description: "Quota-free iterative code review with continuous loop, architecture review, security review, vulnerability review, OWASP review, correctness review, readability review, performance review, code quality review, review loop, iterative review, multi reviewer, git diff review, standards review, spec review, SOLID review — idempotent .forge-standard-review/ per-repo memory"
 ---
 // parser-strict: exactly name + description — PASS
 // SKILL.md body h1: "# Anvil Review Loop" — legacy rename residual (gap: title says Anvil not Forge)
 ```
 
 ```
-// README.md — 150 lines, badge skills.sh present, install npx skills add SriChandraSekharA/forge-standard, features, demo placeholder
+// README.md — 150 lines, badge skills.sh present, install npx skills add SriChandraSekharA/forge-standard-review, features, demo placeholder
 // references/checklist.md exists (29 lines), references/knowledge.md exists (22 lines)
 // templates/report.md, worker.prompt.md, critic.prompt.md exist
 // .gitignore exists, AGENTS.md exists
@@ -105,7 +105,7 @@ mcp/: missing (no mcp dir, no mcp.json, no server)
 
 ## 3-Repo Matrix (existence + gap)
 
-| Field | `forge-standard` (canonical) | `anvil-review-loop` (legacy) | `qodo-standard-review` (legacy) |
+| Field | `forge-standard-review` (canonical) | `anvil-review-loop` (legacy) | `qodo-standard-review` (legacy) |
 |---|---|---|---|
 | **Visibility / archived** | public, `archived:false` ✅ | public, `archived:false` (not archived) | public, `archived:false` (not archived) |
 | **HEAD SHA (ls-remote)** | `09312ed15847449211b4852ec3d4e5822a9e697a` (main, tag v1.0.0 `edef5bc`) | `685c52c44b9daf4a2a836da60652fae252db1353` | `53319ab35310c3c2fcf0e9345b47dfa6f561c488` |
@@ -117,31 +117,31 @@ mcp/: missing (no mcp dir, no mcp.json, no server)
 | **.github/** | missing ❌ (no workflows, no FUNDING, no issue templates) | missing (assuming same; not listed) | missing |
 | **mcp presence** | missing ❌ (no `mcp/` dir, no `mcp.json`) | missing | missing (has `.review-memory.json` instead — qodo legacy artifact) |
 | **skills.sh status** | 404 pending <24h (`curl -sL` → 404 NEXT_HTTP_ERROR_FALLBACK) — expected race | 404/unknown (not checked; legacy not canonical) | 404/unknown |
-| **package.json skills field** | present ✅ (`"skills":["forge-standard"]` at `/Users/webileapps/Chandu/github/forge-standard/package.json:27`) | N/A (no package.json in contents listing) | N/A |
-| **SKILL.md frontmatter** | `name: forge-standard` ✅ exact `name+description` only | `name: anvil-review-loop` (legacy name) | `name: qodo-standard-review` (forbidden token legacy) |
+| **package.json skills field** | present ✅ (`"skills":["forge-standard-review"]` at `/Users/webileapps/Chandu/github/forge-standard-review/package.json:27`) | N/A (no package.json in contents listing) | N/A |
+| **SKILL.md frontmatter** | `name: forge-standard-review` ✅ exact `name+description` only | `name: anvil-review-loop` (legacy name) | `name: qodo-standard-review` (forbidden token legacy) |
 | **README.md** | present ✅ 150 lines | present | present |
-| **.forge-standard/ vs .anvil/.review-memory** | uses `.forge-standard/` (correct) | uses `.anvil-review-loop/` (legacy) | uses `.review-memory.json` (legacy) |
-| **Origin remote (local)** | `https://github.com/SriChandraSekharA/forge-standard.git` (fetch/push) | `https://github.com/SriChandraSekharA/anvil-review-loop.git` (ls-remote) | `https://github.com/SriChandraSekharA/qodo-standard-review.git` |
+| **.forge-standard-review/ vs .anvil/.review-memory** | uses `.forge-standard-review/` (correct) | uses `.anvil-review-loop/` (legacy) | uses `.review-memory.json` (legacy) |
+| **Origin remote (local)** | `https://github.com/SriChandraSekharA/forge-standard-review.git` (fetch/push) | `https://github.com/SriChandraSekharA/anvil-review-loop.git` (ls-remote) | `https://github.com/SriChandraSekharA/qodo-standard-review.git` |
 
 ## Gap Lists (per repo — what MUST be fixed in Tasks 2+ before publish)
 
-### forge-standard (canonical) — gaps to fix, DO NOT FIX NOW per MUST NOT DO
+### forge-standard-review (canonical) — gaps to fix, DO NOT FIX NOW per MUST NOT DO
 - [ ] `LICENSE` — add MIT LICENSE file (package.json says MIT but no file; gh api 404)
 - [ ] `CONTRIBUTING.md` — add contributing guide
 - [ ] `CODE_OF_CONDUCT.md` — add CoC (e.g., Contributor Covenant)
 - [ ] `SECURITY.md` — add security policy (vulnerability reporting, no token gate)
 - [ ] `.github/` — add at minimum `workflows/ci.yml`, `FUNDING.yml` if needed, issue/PR templates (currently zero)
-- [ ] `mcp/` — scaffold MCP server per forge-standard MCP+OSS standardization (mcp.json + server entry)
-- [ ] `skills.sh` 404 — wait <24h propagation; re-check `curl -sL https://skills.sh/SriChandraSekharA/forge-standard` before publish; do not re-publish until 200
+- [ ] `mcp/` — scaffold MCP server per forge-standard-review MCP+OSS standardization (mcp.json + server entry)
+- [ ] `skills.sh` 404 — wait <24h propagation; re-check `curl -sL https://skills.sh/SriChandraSekharA/forge-standard-review` before publish; do not re-publish until 200
 - [ ] `package.json` keyword leak — `anvil` removed in this audit (see Fix below); verify no re-introduction
-- [ ] `SKILL.md` title drift — `# Anvil Review Loop` should become `# Forge Standard` (or at least mention forge-standard as primary) to match `name: forge-standard`
+- [ ] `SKILL.md` title drift — `# Anvil Review Loop` should become `# Forge Standard` (or at least mention forge-standard-review as primary) to match `name: forge-standard-review`
 - [ ] `README.md` LICENSE note says "MIT - see LICENSE if present" — update once LICENSE added
 - [ ] Repo `license` field on GitHub null — will populate after LICENSE push (GitHub detects LICENSE file)
 - [ ] No archive action needed (canonical stays public, not archived)
 
 ### anvil-review-loop (legacy) — archival candidategaps (MUST NOT archive yet)
 - Public, not archived, 8 topics — identical OSS gaps (no LICENSE etc.) but NOT the canonical; Task requires no archive yet
-- Gap: should eventually be archived with redirect notice to forge-standard once skills.sh canonical is live
+- Gap: should eventually be archived with redirect notice to forge-standard-review once skills.sh canonical is live
 - HEAD 685c52c retained; contains `.anvil-review-loop/` naming — legacy branding
 
 ### qodo-standard-review (legacy) — archival candidate
@@ -155,14 +155,14 @@ mcp/: missing (no mcp dir, no mcp.json, no server)
 
 ```bash
 # verification
-cat /Users/webileapps/Chandu/github/forge-standard/package.json | grep -n anvil
+cat /Users/webileapps/Chandu/github/forge-standard-review/package.json | grep -n anvil
 # => no output (0 hits)
 ```
 
 ## Durable Notepad Pointers
 
 - Durable: `/var/folders/4l/6c2fc7hj6sn1b4sqf9j_wwkc0000gn/T/ulw-20260905-XXXXXX.md.xxFgv7WX6G` — append audit summary section
-- Local: `/Users/webileapps/Chandu/github/forge-standard/.omo/notepad.md` — header + audit summary (this audit's companion)
+- Local: `/Users/webileapps/Chandu/github/forge-standard-review/.omo/notepad.md` — header + audit summary (this audit's companion)
 
 ## MUST NOT DO Compliance (no OSS overwrite in this task)
 
@@ -174,7 +174,7 @@ cat /Users/webileapps/Chandu/github/forge-standard/package.json | grep -n anvil
 
 ## Next Task Gates (Task 2+)
 
-1. Task 2 waits for skills.sh 404 → 200 propagation check (`curl -I https://skills.sh/SriChandraSekharA/forge-standard`)
+1. Task 2 waits for skills.sh 404 → 200 propagation check (`curl -I https://skills.sh/SriChandraSekharA/forge-standard-review`)
 2. Then scaffold OSS files (LICENSE MIT, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, .github/workflows) from templates
 3. Then scaffold `mcp/` per spec (do not invent schema — read spec first)
 4. Then re-run this audit to confirm gaps closed before `git push` + publish

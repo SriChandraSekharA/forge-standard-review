@@ -32,7 +32,7 @@ paste logs here
 
 - OS:
 - Node / Python version:
-- forge-standard version or commit:
+- forge-standard-review version or commit:
 - Shell (`bash --version`):
 
 ## Additional Context

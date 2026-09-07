@@ -28,7 +28,7 @@ Describe the tests you ran and how to reproduce them.
 - [ ] I followed the setup and PR process in `CONTRIBUTING.md`
 - [ ] I added or updated tests where needed
 - [ ] I updated docs (`README.md`, `SKILL.md`, or `references/`) if behavior changed
-- [ ] I checked that `grep forge-standard SKILL.md` still matches the frontmatter name
+- [ ] I checked that `grep forge-standard-review SKILL.md` still matches the frontmatter name
 
 ## Screenshots or Logs (if applicable)
 

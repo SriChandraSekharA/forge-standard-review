@@ -243,9 +243,9 @@ export TESTS_PRESENT
 export TEST_CONTEXT
 export TEST_FILES_LIST
 export TEST_DISCOVERY
-# persist for report/critic visibility (isolated under .forge-standard/, non-failing)
-mkdir -p .forge-standard 2>/dev/null || true
-printf "%s\n" "$TEST_CONTEXT" > .forge-standard/test_context.md 2>/dev/null || true
+# persist for report/critic visibility (isolated under .forge-standard-review/, non-failing)
+mkdir -p .forge-standard-review 2>/dev/null || true
+printf "%s\n" "$TEST_CONTEXT" > .forge-standard-review/test_context.md 2>/dev/null || true
 
 # --preview: print diff and exit
 if [ "$preview" -eq 1 ]; then
@@ -254,7 +254,7 @@ if [ "$preview" -eq 1 ]; then
 fi
 
 # Prepare output dir - never overwrite learning.md, only append
-out_dir=".forge-standard"
+out_dir=".forge-standard-review"
 mkdir -p "$out_dir"
 # Ensure learning.md exists (monotonic append only)
 if [ ! -f "$out_dir/learning.md" ]; then

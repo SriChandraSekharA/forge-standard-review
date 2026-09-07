@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an idea for forge-standard
+about: Suggest an idea for forge-standard-review
 title: "feat: "
 labels: enhancement
 assignees: ""

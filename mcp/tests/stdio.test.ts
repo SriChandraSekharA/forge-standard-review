@@ -48,11 +48,11 @@ async function initialize(h: ReturnType<typeof createHarness>) {
 describe("stdio JSON-RPC harness (initialize → tools/list → tools/call)", () => {
   it("server.js exists (built artifact)", () => { expect(fs.existsSync(SERVER_JS)).toBe(true); });
 
-  it("initialize handshake returns serverInfo forge-standard", async () => {
+  it("initialize handshake returns serverInfo forge-standard-review", async () => {
     const h = createHarness();
     try {
       const res = await h.request<{ protocolVersion: string; serverInfo: { name: string; version: string } }>({ jsonrpc: "2.0", id: 1, method: "initialize", params: { protocolVersion: "2024-11-05", capabilities: {}, clientInfo: { name: "test", version: "1.0.0" } } });
-      expect(res.result.serverInfo.name).toBe("forge-standard");
+      expect(res.result.serverInfo.name).toBe("forge-standard-review");
       expect(res.result.serverInfo.version).toMatch(/\d+\.\d+\.\d+/);
       h.send({ jsonrpc: "2.0", method: "notifications/initialized" });
     } finally { h.close(); }

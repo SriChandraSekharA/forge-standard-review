@@ -1,51 +1,51 @@
-# Branch Protection — `SriChandraSekharA/forge-standard` `main`
+# Branch Protection — `SriChandraSekharA/forge-standard-review` `main`
 
-> Workdir: `"/Users/webileapps/Chandu/github/forge-standard"` — HEAD `c9724d5` tag `v1.1.0` `cb1fa70` origin `forge-standard`
+> Workdir: `"/Users/webileapps/Chandu/github/forge-standard-review"` — HEAD `c9724d5` tag `v1.1.0` `cb1fa70` origin `forge-standard-review`
 > Generated: 2026-09-05T08:55 IST (Task 8.5 Hardening & Branch Protection)
 > Scope: manual UI steps only — no `git push --force`, no `mcp/dist` direct edit, all paths quoted.
 
 ## Evidence (quoted workdir — read-only verification)
 
 ```bash
-# gh api repos/SriChandraSekharA/forge-standard --jq '{archived,license,topics}'
-gh api repos/SriChandraSekharA/forge-standard --jq '{archived,license:.license.spdx_id,topics:(.topics|length),visibility}'
+# gh api repos/SriChandraSekharA/forge-standard-review --jq '{archived,license,topics}'
+gh api repos/SriChandraSekharA/forge-standard-review --jq '{archived,license:.license.spdx_id,topics:(.topics|length),visibility}'
 # => {"archived":false,"license":"MIT","topics":8,"visibility":"public"}
 # topics: ["code-quality","code-review","owasp","pr-review","pull-request-review","review-loop","security-review","vulnerability-review"] (8)
 # archived:false correct — canonical stays public, not archived
-# license MIT correct — gh api repos/SriChandraSekharA/forge-standard/license => {"name":"LICENSE","path":"LICENSE","license":{"key":"mit","spdx_id":"MIT"}}
+# license MIT correct — gh api repos/SriChandraSekharA/forge-standard-review/license => {"name":"LICENSE","path":"LICENSE","license":{"key":"mit","spdx_id":"MIT"}}
 
-cat "/Users/webileapps/Chandu/github/forge-standard/LICENSE" | head -5
+cat "/Users/webileapps/Chandu/github/forge-standard-review/LICENSE" | head -5
 # => MIT License / Copyright (c) 2026 Chandra Sekhar — PASS (MIT 2026 Chandra Sekhar, no anvil/qodo leak in LICENSE)
 
-# No anvil/qodo leak in publishable surface (exclude .git, node_modules, mcp/dist build artifact, .omo historical, .forge-standard runtime)
-grep -ri "qodo" --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.omo --exclude-dir=.forge-standard "/Users/webileapps/Chandu/github/forge-standard" 2>&1 | head
-# => 0 hits (outside .omo historical + .forge-standard runtime — package.json keywords clean, SKILL.md frontmatter forge-standard only)
+# No anvil/qodo leak in publishable surface (exclude .git, node_modules, mcp/dist build artifact, .omo historical, .forge-standard-review runtime)
+grep -ri "qodo" --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.omo --exclude-dir=.forge-standard-review "/Users/webileapps/Chandu/github/forge-standard-review" 2>&1 | head
+# => 0 hits (outside .omo historical + .forge-standard-review runtime — package.json keywords clean, SKILL.md frontmatter forge-standard-review only)
 
-grep -ri "qodo" --exclude-dir=.git --exclude-dir=node_modules "/Users/webileapps/Chandu/github/forge-standard" 2>&1 | grep -v "^.*/.omo/" | grep -v "^.*/.forge-standard/" | head
+grep -ri "qodo" --exclude-dir=.git --exclude-dir=node_modules "/Users/webileapps/Chandu/github/forge-standard-review" 2>&1 | grep -v "^.*/.omo/" | grep -v "^.*/.forge-standard-review/" | head
 # => 0 hits on publishable files (hits only in .omo/audit* historical references to legacy SriChandraSekharA/qodo-standard-review — expected, not a leak)
-# Same for anvil in package.json: grep -n anvil "/Users/webileapps/Chandu/github/forge-standard/package.json" => 0
+# Same for anvil in package.json: grep -n anvil "/Users/webileapps/Chandu/github/forge-standard-review/package.json" => 0
 
 # Scripts hardening
-for f in "/Users/webileapps/Chandu/github/forge-standard/scripts/"*.sh; do head -n1 "$f"; done
+for f in "/Users/webileapps/Chandu/github/forge-standard-review/scripts/"*.sh; do head -n1 "$f"; done
 # => all #!/usr/bin/env bash + line2 set -euo pipefail (critic.sh, history.sh, init.sh, knowledge.sh, merge.sh, poll-skills.sh, report.sh, review.sh)
-bash -n "/Users/webileapps/Chandu/github/forge-standard/scripts/"*.sh; echo exit:$?
+bash -n "/Users/webileapps/Chandu/github/forge-standard-review/scripts/"*.sh; echo exit:$?
 # => exit:0
 
 # Typecheck + tests (quoted workdir, mcp prefix)
-npx --prefix "/Users/webileapps/Chandu/github/forge-standard/mcp" tsc --noEmit -p mcp/tsconfig.json; echo exit:$?
+npx --prefix "/Users/webileapps/Chandu/github/forge-standard-review/mcp" tsc --noEmit -p mcp/tsconfig.json; echo exit:$?
 # => exit:0 (from mcp dir: npx --prefix mcp tsc --noEmit -p tsconfig.json; from root: npm run build --prefix mcp)
-npm --prefix "/Users/webileapps/Chandu/github/forge-standard/mcp" test 2>&1 | tail -5
+npm --prefix "/Users/webileapps/Chandu/github/forge-standard-review/mcp" test 2>&1 | tail -5
 # => Test Files 2 passed (2) / Tests 28 passed (28) — also npm test at root delegates to mcp (same 28)
 
 # mcp workdir quoting
-grep -n "path.resolve.*workdir\|existsSync.*workdir\|spawn.*cwd" "/Users/webileapps/Chandu/github/forge-standard/mcp/src/server.ts"
+grep -n "path.resolve.*workdir\|existsSync.*workdir\|spawn.*cwd" "/Users/webileapps/Chandu/github/forge-standard-review/mcp/src/server.ts"
 # => handleForgeReview: const workdir = typed.workdir ? path.resolve(typed.workdir) : repoRoot; if (!existsSync(workdir)) ...; spawn("bash",[scriptPath,...scriptArgs],{cwd: workdir}) — quoted, no shell interpolation
 ```
 
 ## Branch Protection API Probe (read-only — fallback to UI)
 
 ```bash
-gh api repos/SriChandraSekharA/forge-standard/branches/main/protection 2>&1 | head -5
+gh api repos/SriChandraSekharA/forge-standard-review/branches/main/protection 2>&1 | head -5
 # => {"message":"Resource not accessible by personal access token","documentation_url":"https://docs.github.com/rest/branches/branch-protection#get-branch-protection","status":"403"}
 # gh: Resource not accessible by personal access token (HTTP 403)
 # Also seen as 404 when token lacks admin:read — same fallback.
@@ -55,9 +55,9 @@ gh api repos/SriChandraSekharA/forge-standard/branches/main/protection 2>&1 | he
 
 ## UI Steps (owner/admin — manual, no automation)
 
-> Requires admin on `SriChandraSekharA/forge-standard`. Do not automate via `GITHUB_TOKEN` in CI (ci.yml has `permissions: contents: read` only).
+> Requires admin on `SriChandraSekharA/forge-standard-review`. Do not automate via `GITHUB_TOKEN` in CI (ci.yml has `permissions: contents: read` only).
 
-1. Open `https://github.com/SriChandraSekharA/forge-standard/settings/branches` (quoted workdir irrelevant — browser step).
+1. Open `https://github.com/SriChandraSekharA/forge-standard-review/settings/branches` (quoted workdir irrelevant — browser step).
 2. Click **Add classic branch protection rule** (or **Add rule**).
 3. **Branch name pattern:** `main`
 4. Check **Require a pull request before merging**
@@ -76,7 +76,7 @@ gh api repos/SriChandraSekharA/forge-standard/branches/main/protection 2>&1 | he
 Verify after first PR:
 ```bash
 # As owner, confirm rule applied (requires admin token for API; UI otherwise):
-gh api repos/SriChandraSekharA/forge-standard/branches/main/protection --jq '{required_status_checks, required_pull_request_reviews, allow_force_pushes}' 2>&1 | head -20
+gh api repos/SriChandraSekharA/forge-standard-review/branches/main/protection --jq '{required_status_checks, required_pull_request_reviews, allow_force_pushes}' 2>&1 | head -20
 # Expect: required_status_checks.contexts contains ci, required_pull_request_reviews.required_approving_review_count >=1, allow_force_pushes.enabled == false
 # If 403 again, verify visually in Settings > Branches that the rule shows for main with the checks above.
 ```
@@ -87,10 +87,10 @@ gh api repos/SriChandraSekharA/forge-standard/branches/main/protection --jq '{re
 
 ```bash
 # Preview what would be set (dry-run — no write if 403):
-gh api repos/SriChandraSekharA/forge-standard/branches/main/protection 2>&1 | head
+gh api repos/SriChandraSekharA/forge-standard-review/branches/main/protection 2>&1 | head
 
 # Apply protection via API (requires admin, quoted workdir shown for parity with server.ts validation):
-gh api repos/SriChandraSekharA/forge-standard/branches/main/protection -X PUT \
+gh api repos/SriChandraSekharA/forge-standard-review/branches/main/protection -X PUT \
   -f required_status_checks[strict]=true \
   -f required_status_checks[contexts][]="ci" \
   -f enforce_admins=true \
@@ -101,7 +101,7 @@ gh api repos/SriChandraSekharA/forge-standard/branches/main/protection -X PUT \
   -f allow_deletions[enabled]=false 2>&1 | head -20
 
 # Legacy API alternative if above contexts key needs array JSON:
-gh api repos/SriChandraSekharA/forge-standard/branches/main/protection \
+gh api repos/SriChandraSekharA/forge-standard-review/branches/main/protection \
   -X PUT --input <(cat <<'JSON'
 {
   "required_status_checks": {"strict": true, "contexts": ["ci"]},
@@ -115,7 +115,7 @@ JSON
 ) 2>&1 | head
 
 # Verify:
-gh api repos/SriChandraSekharA/forge-standard/branches/main/protection --jq '{required_status_checks, required_pull_request_reviews, allow_force_pushes, allow_deletions, enforce_admins}' 2>&1
+gh api repos/SriChandraSekharA/forge-standard-review/branches/main/protection --jq '{required_status_checks, required_pull_request_reviews, allow_force_pushes, allow_deletions, enforce_admins}' 2>&1
 # Fallback to UI if 403: Resource not accessible by personal access token — configure via Settings > Branches as above.
 ```
 
@@ -123,7 +123,7 @@ gh api repos/SriChandraSekharA/forge-standard/branches/main/protection --jq '{re
 
 - No `git push --force` executed in this task — protection is read-only probe + UI doc.
 - No `mcp/dist/server.js` edited directly — source is `mcp/src/server.ts` with `path.resolve` + `existsSync` + `spawn cwd` quoted (build via `npm run build --prefix mcp`).
-- All script invocations quoted: `"/Users/webileapps/Chandu/github/forge-standard/scripts/"*.sh`, `"/Users/webileapps/Chandu/github/forge-standard/mcp"` etc.
+- All script invocations quoted: `"/Users/webileapps/Chandu/github/forge-standard-review/scripts/"*.sh`, `"/Users/webileapps/Chandu/github/forge-standard-review/mcp"` etc.
 - CI remains `permissions: contents: read` — branch protection is manual owner step, not automated.
 
 ## Next Verification
@@ -131,10 +131,10 @@ gh api repos/SriChandraSekharA/forge-standard/branches/main/protection --jq '{re
 After owner applies rule via UI or admin PAT, re-run:
 
 ```bash
-gh api repos/SriChandraSekharA/forge-standard --jq '{archived,topics: (.topics|length), license: .license.spdx_id}' # archived:false topics:8 license:MIT
-gh api repos/SriChandraSekharA/forge-standard/branches/main/protection --jq . 2>&1 | head -40 # 200 with contexts, or 403 fallback
-bash -n "/Users/webileapps/Chandu/github/forge-standard/scripts/"*.sh; echo ok
-npx --prefix "/Users/webileapps/Chandu/github/forge-standard/mcp" tsc --noEmit -p mcp/tsconfig.json && echo tsc ok
+gh api repos/SriChandraSekharA/forge-standard-review --jq '{archived,topics: (.topics|length), license: .license.spdx_id}' # archived:false topics:8 license:MIT
+gh api repos/SriChandraSekharA/forge-standard-review/branches/main/protection --jq . 2>&1 | head -40 # 200 with contexts, or 403 fallback
+bash -n "/Users/webileapps/Chandu/github/forge-standard-review/scripts/"*.sh; echo ok
+npx --prefix "/Users/webileapps/Chandu/github/forge-standard-review/mcp" tsc --noEmit -p mcp/tsconfig.json && echo tsc ok
 npm test 2>&1 | grep -E "Test Files|Tests"
-grep -n "path.resolve.*workdir" "/Users/webileapps/Chandu/github/forge-standard/mcp/src/server.ts"
+grep -n "path.resolve.*workdir" "/Users/webileapps/Chandu/github/forge-standard-review/mcp/src/server.ts"
 ```

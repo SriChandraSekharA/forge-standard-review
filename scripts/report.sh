@@ -2,7 +2,7 @@
 set -euo pipefail
 # feat: ranked report critical->nitpick - critical/high/medium/low/nitpick sorted, per finding reason/fix/prompt with Act as prompt, review.json schema
 # report.sh -- ranked report critical->nitpick + review.json (no network)
-out_dir=".forge-standard"; mkdir -p "$out_dir"
+out_dir=".forge-standard-review"; mkdir -p "$out_dir"
 report_md="$out_dir/report.md"; review_json="$out_dir/review.json"
 input_arg=""
 while [ $# -gt 0 ]; do

@@ -30,4 +30,4 @@ We will acknowledge your report within 3 business days, provide an initial asses
 
 We will not take legal action against researchers who report in good faith and avoid harming users, accessing private data beyond what is needed to show the issue, or disrupting services.
 
-Thank you for helping keep forge-standard and its users safe.
+Thank you for helping keep forge-standard-review and its users safe.

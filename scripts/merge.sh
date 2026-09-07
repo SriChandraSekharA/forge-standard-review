@@ -2,7 +2,7 @@
 set -euo pipefail
 # fix: merge-preservation - 2nd invocation never overwrites: state.json jq merge preserves reviews[], checklist CUSTOM blocks, history always overwrites, learning.md append-only
 
-target_dir="${1:-.forge-standard}"
+target_dir="${1:-.forge-standard-review}"
 mkdir -p "$target_dir"
 
 script_dir="$(cd "$(dirname "$0")" && pwd)"
@@ -10,7 +10,7 @@ resolve_ref() {
   local rel="$1"
   if [ -f "$rel" ]; then echo "$rel"
   elif [ -f "$script_dir/../$rel" ]; then echo "$script_dir/../$rel"
-  elif [ -f "/Users/webileapps/Chandu/github/forge-standard/$rel" ]; then echo "/Users/webileapps/Chandu/github/forge-standard/$rel"
+  elif [ -f "/Users/webileapps/Chandu/github/forge-standard-review/$rel" ]; then echo "/Users/webileapps/Chandu/github/forge-standard-review/$rel"
   else echo ""; fi
 }
 

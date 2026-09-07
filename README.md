@@ -1,4 +1,4 @@
-# forge-standard
+# forge-standard-review
 
 [![Skills.sh](https://img.shields.io/badge/skills.sh-forge--standard-blue?logo=data:image/svg+xml;base64)](https://skills.sh) ![npx skills add -l](assets/badge.svg)
 
@@ -9,19 +9,19 @@ Quota-free iterative code review with continuous loop - no tokens, no quotas, no
 ## Install
 
 ```bash
-npx --yes skills add SriChandraSekharA/forge-standard --skill forge-standard -g -y
+npx --yes skills add SriChandraSekharA/forge-standard-review --skill forge-standard-review -g -y
 ```
 
 Local install:
 
 ```bash
-npx --yes skills add SriChandraSekharA/forge-standard --skill forge-standard -g -y
+npx --yes skills add SriChandraSekharA/forge-standard-review --skill forge-standard-review -g -y
 ```
 
 Manual:
 
 ```bash
-git clone https://github.com/SriChandraSekharA/forge-standard.git
+git clone https://github.com/SriChandraSekharA/forge-standard-review.git
 ```
 
 ## Features
@@ -30,7 +30,7 @@ git clone https://github.com/SriChandraSekharA/forge-standard.git
 - **VCS-aware** - detects `git` || `hg` || `none` and degrades gracefully; staged, range, and file modes work across all three.
 - **Loop gate 8 max4** - iterates up to 8 cycles, at most 4 auto-fix attempts per cycle; deterministic stop gate prevents infinite loops.
 - **Ranked report** - findings ordered `critical -> high -> medium -> low -> nitpick` with file:line, severity, and actionable fix hints.
-- **Idempotent memory** - `.forge-standard/` is created on first invocation and reused/updated thereafter; per-repo isolation, never committed.
+- **Idempotent memory** - `.forge-standard-review/` is created on first invocation and reused/updated thereafter; per-repo isolation, never committed.
 - **Fully offline** - no API keys, no network calls, no hidden uploads; all analysis runs locally via bash scripts.
 
 ## Quick Start
@@ -52,8 +52,8 @@ git clone https://github.com/SriChandraSekharA/forge-standard.git
 ```bash
 bash ./scripts/init.sh
 bash ./scripts/review.sh --staged
-cat .forge-standard/report.md
-cat .forge-standard/review.json | jq
+cat .forge-standard-review/report.md
+cat .forge-standard-review/review.json | jq
 ```
 
 > Note: This GIF is a generated placeholder via Python PIL (ffmpeg/convert not available on this host). For a real capture: `script -q /tmp/demo.txt` then `ttygif`/`terminalizer` or `ffmpeg -loop 0 -f lavfi -i color=c=black:s=800x400 -t 10` overlay. The file at `assets/demo.gif` satisfies the `10s loop init -> review -> report` contract.
@@ -63,21 +63,21 @@ cat .forge-standard/review.json | jq
 `npx` validation (`npx --yes skills add <path> -l`):
 
 ```bash
-npx --yes skills add /Users/webileapps/Chandu/github/forge-standard -l
+npx --yes skills add /Users/webileapps/Chandu/github/forge-standard-review -l
 ```
 
 Output (captured to `assets/npx-proof.txt`):
 
 ```
-Source: /Users/webileapps/Chandu/github/forge-standard
+Source: /Users/webileapps/Chandu/github/forge-standard-review
 Local path validated
 Found 1 skill
 
   Available Skills
 
-    forge-standard
+    forge-standard-review
 
-      Quota-free iterative code review with continuous loop, architecture review, security review, vulnerability review, OWASP review, correctness review, readability review, performance review, code quality review, review loop, iterative review, multi reviewer, git diff review, standards review, spec review, SOLID review - idempotent .forge-standard/ per-repo memory
+      Quota-free iterative code review with continuous loop, architecture review, security review, vulnerability review, OWASP review, correctness review, readability review, performance review, code quality review, review loop, iterative review, multi reviewer, git diff review, standards review, spec review, SOLID review - idempotent .forge-standard-review/ per-repo memory
 
 Use --skill <name> to install specific skills
 ```
@@ -139,7 +139,7 @@ Report generated 2026-09-05T03:45:00+05:30 IST - <BASE_SHA>...<HEAD_SHA>
 Generated: 2026-09-05T03:45:00+05:30
 ```
 
-Behavior: `scripts/init.sh` and `scripts/review.sh` update `lastReviewAt` via `date +"%Y-%m-%dT%H:%M:%S+05:30"` (fallback to UTC `Z` if unavailable) and preserve `.forge-standard/reviews` and any `CUSTOM` / `USER CUSTOM START` blocks via `scripts/merge.sh`.
+Behavior: `scripts/init.sh` and `scripts/review.sh` update `lastReviewAt` via `date +"%Y-%m-%dT%H:%M:%S+05:30"` (fallback to UTC `Z` if unavailable) and preserve `.forge-standard-review/reviews` and any `CUSTOM` / `USER CUSTOM START` blocks via `scripts/merge.sh`.
 
 ## Contributing
 
@@ -175,10 +175,10 @@ Configure your MCP client with `mcp.json`:
 ```json
 {
   "mcpServers": {
-    "forge-standard": {
+    "forge-standard-review": {
       "command": "node",
       "args": ["mcp/dist/server.js"],
-      "cwd": "/Users/webileapps/Chandu/github/forge-standard"
+      "cwd": "/Users/webileapps/Chandu/github/forge-standard-review"
     }
   }
 }
@@ -199,7 +199,7 @@ No install needed, use the official inspector:
 npx @modelcontextprotocol/inspector node mcp/dist/server.js
 ```
 
-Then open `http://localhost:6274`, select Transport `STDIO`, Command `node`, Args `mcp/dist/server.js`, click Connect. `tools/list` should show `forge_review`. Try a call with `{ "mode": "staged", "workdir": "/Users/webileapps/Chandu/github/forge-standard" }`.
+Then open `http://localhost:6274`, select Transport `STDIO`, Command `node`, Args `mcp/dist/server.js`, click Connect. `tools/list` should show `forge_review`. Try a call with `{ "mode": "staged", "workdir": "/Users/webileapps/Chandu/github/forge-standard-review" }`.
 
 CLI probe without UI:
 
@@ -239,4 +239,4 @@ See `mcp/README.md` and `docs/MCP.md` for full transport details and `examples/`
 
 ## Contract
 
-`.forge-standard/` is initialized on first invocation and reused/updated on every later invocation. Do not commit it; it is gitignored by default.
+`.forge-standard-review/` is initialized on first invocation and reused/updated on every later invocation. Do not commit it; it is gitignored by default.

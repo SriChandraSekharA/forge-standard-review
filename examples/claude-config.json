@@ -1,9 +1,9 @@
 {
   "mcpServers": {
-    "forge-standard": {
+    "forge-standard-review": {
       "command": "node",
       "args": ["mcp/dist/server.js"],
-      "cwd": "/Users/webileapps/Chandu/github/forge-standard",
+      "cwd": "/Users/webileapps/Chandu/github/forge-standard-review",
       "env": {}
     }
   }

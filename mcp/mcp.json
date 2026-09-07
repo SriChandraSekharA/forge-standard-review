@@ -1,5 +1,5 @@
 {
-  "name": "forge-standard",
+  "name": "forge-standard-review",
   "version": "1.0.0",
   "description": "Quota-free iterative code review with continuous loop — MCP stdio server wrapping review.sh",
   "transport": "stdio",
@@ -10,7 +10,7 @@
   "tools": [
     {
       "name": "forge_review",
-      "description": "Run forge-standard review loop (wraps scripts/review.sh). Supports staged, range, and file modes with ranked report.",
+      "description": "Run forge-standard-review review loop (wraps scripts/review.sh). Supports staged, range, and file modes with ranked report.",
       "inputSchema": {
         "type": "object",
         "properties": {

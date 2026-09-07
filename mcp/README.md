@@ -1,6 +1,6 @@
-# forge-standard MCP Server
+# forge-standard-review MCP Server
 
-Same-repo MCP server at `mcp/` inside `SriChandraSekharA/forge-standard` per ADR-001.
+Same-repo MCP server at `mcp/` inside `SriChandraSekharA/forge-standard-review` per ADR-001.
 Stdio transport via `@modelcontextprotocol/sdk`, wrapping the existing skill `scripts/review.sh`
 as tool `forge_review`.
 
@@ -8,16 +8,16 @@ as tool `forge_review`.
 
 ```
 mcp/
-  package.json   # name forge-standard-mcp, deps @modelcontextprotocol/sdk
+  package.json   # name forge-standard-review-mcp, deps @modelcontextprotocol/sdk
   tsconfig.json
-  mcp.json       # manifest: name forge-standard, version from root, stdio, tools [forge_review]
+  mcp.json       # manifest: name forge-standard-review, version from root, stdio, tools [forge_review]
   src/server.ts  # stdio JSON-RPC initialize/tools/list/tools/call
   dist/server.js # built output (gitignored)
 ```
 
 ## Install
 
-Deps are isolated to `mcp/` — root `package.json` keeps `skills: ["forge-standard"]` intact.
+Deps are isolated to `mcp/` — root `package.json` keeps `skills: ["forge-standard-review"]` intact.
 
 ```bash
 npm install --prefix mcp
@@ -43,7 +43,7 @@ node mcp/dist/server.js
 
 The server speaks MCP stdio JSON-RPC:
 
-- `initialize` → returns serverInfo `forge-standard` + capabilities `tools`
+- `initialize` → returns serverInfo `forge-standard-review` + capabilities `tools`
 - `tools/list` → `[{ name: "forge_review", ... }]`
 - `tools/call` with `forge_review` → spawns `bash scripts/review.sh` with quoted paths and `workdir` param
 
@@ -53,7 +53,7 @@ Manual smoke test:
 echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"test","version":"1.0.0"}}}' | node mcp/dist/server.js
 ```
 
-Should return a JSON line with `result.serverInfo.name === "forge-standard"` and protocolVersion.
+Should return a JSON line with `result.serverInfo.name === "forge-standard-review"` and protocolVersion.
 
 Tool call example (after initialize + initialized notification):
 
@@ -61,7 +61,7 @@ Tool call example (after initialize + initialized notification):
 # tools/list
 echo '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}' | node mcp/dist/server.js
 # tools/call staged
-echo '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"forge_review","arguments":{"mode":"staged","workdir":"/Users/webileapps/Chandu/github/forge-standard"}}}' | node mcp/dist/server.js
+echo '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"forge_review","arguments":{"mode":"staged","workdir":"/Users/webileapps/Chandu/github/forge-standard-review"}}}' | node mcp/dist/server.js
 ```
 
 ## Inspector (npx)

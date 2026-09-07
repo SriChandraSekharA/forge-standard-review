@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
-# feat: idempotent init - VCS-aware (git/hg/no-vcs) + history sync via history.sh, per-repo .forge-standard/ memory
+# feat: idempotent init - VCS-aware (git/hg/no-vcs) + history sync via history.sh, per-repo .forge-standard-review/ memory
 
-target_dir="${1:-.forge-standard}"
+target_dir="${1:-.forge-standard-review}"
 mkdir -p "$target_dir"
 
 script_dir="$(cd "$(dirname "$0")" && pwd)"
@@ -14,8 +14,8 @@ resolve_ref() {
     echo "$rel"
   elif [ -f "$script_dir/../$rel" ]; then
     echo "$script_dir/../$rel"
-  elif [ -f "/Users/webileapps/Chandu/github/forge-standard/$rel" ]; then
-    echo "/Users/webileapps/Chandu/github/forge-standard/$rel"
+  elif [ -f "/Users/webileapps/Chandu/github/forge-standard-review/$rel" ]; then
+    echo "/Users/webileapps/Chandu/github/forge-standard-review/$rel"
   else
     echo ""
   fi

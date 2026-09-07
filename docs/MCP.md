@@ -1,4 +1,4 @@
-# MCP — forge-standard
+# MCP — forge-standard-review
 
 Same-repo MCP server wrapping `scripts/review.sh` as tool `forge_review`. Stdio transport via `@modelcontextprotocol/sdk`. Local only, no network calls.
 
@@ -6,10 +6,10 @@ Same-repo MCP server wrapping `scripts/review.sh` as tool `forge_review`. Stdio 
 
 ```
 mcp/
-  mcp.json       # manifest: name forge-standard, version 1.0.0, transport stdio, tools [forge_review]
+  mcp.json       # manifest: name forge-standard-review, version 1.0.0, transport stdio, tools [forge_review]
   src/server.ts  # stdio JSON-RPC: initialize, tools/list, tools/call
   dist/server.js # built output
-  package.json   # forge-standard-mcp, deps @modelcontextprotocol/sdk
+  package.json   # forge-standard-review-mcp, deps @modelcontextprotocol/sdk
 examples/
   mcp-client.js        # runnable node client demo (tools/call with quoted workdir)
   stdio-smoke.sh       # bash smoke: piped JSON-RPC initialize -> list -> call
@@ -31,7 +31,7 @@ npx tsc --noEmit -p mcp/tsconfig.json
 
 ```json
 {
-  "name": "forge-standard",
+  "name": "forge-standard-review",
   "version": "1.0.0",
   "transport": "stdio",
   "command": "node",
@@ -46,10 +46,10 @@ Client config for Claude Desktop (`examples/claude-config.json`):
 ```json
 {
   "mcpServers": {
-    "forge-standard": {
+    "forge-standard-review": {
       "command": "node",
       "args": ["mcp/dist/server.js"],
-      "cwd": "/Users/webileapps/Chandu/github/forge-standard"
+      "cwd": "/Users/webileapps/Chandu/github/forge-standard-review"
     }
   }
 }
@@ -99,7 +99,7 @@ echo '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}' | node mcp/dis
 Tool call with quoted workdir:
 
 ```bash
-echo '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"forge_review","arguments":{"mode":"staged","workdir":"/Users/webileapps/Chandu/github/forge-standard"}}}' | node mcp/dist/server.js
+echo '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"forge_review","arguments":{"mode":"staged","workdir":"/Users/webileapps/Chandu/github/forge-standard-review"}}}' | node mcp/dist/server.js
 ```
 
 ## Inspector (npx)
