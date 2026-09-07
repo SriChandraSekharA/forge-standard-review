@@ -38,7 +38,7 @@ jobs:
         run: npm ci --prefix mcp
 
       - name: Typecheck MCP
-        run: npx --yes typescript tsc
+        run: ./mcp/node_modules/.bin/tsc --noEmit -p mcp/tsconfig.json
 
       - name: Shellcheck scripts (bash -n)
         run: |
